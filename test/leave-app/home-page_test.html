@@ -49,21 +49,72 @@
                 let reason = elementShadowRoot.querySelector('#reason')
                 expect(reason).to.be.exist;
             });
-            it('should render the Submit button button', () => {
+            it('should render the Submit button', () => {
                 let submit = elementShadowRoot.querySelector('#submit');
 
             });
-
-            describe('AND when button is clicked', () => {
+           
+            describe('AND when leaves page button is clicked', () => {
                 let sinonSpy;
-                let submit;
+                let leaveBtn;
                 beforeEach(() => {
-                    submit = elementShadowRoot.querySelector('#submit');
+                    leaveBtn = elementShadowRoot.querySelector('#leaveBtn');
                     sinonSpy = sinon.spy();
-                    submit.addEventListener('click', sinonSpy);
+                    leaveBtn.addEventListener('click', sinonSpy);
                 });
-                
-            it('should call the ajax', function () {
+                it('should call _goToLeaves method once', function (done) {
+                    flush(function () {
+                        leaveBtn.click();
+                        expect(sinonSpy.callCount).to.be.equal(1)
+                        done();
+                    });
+                });
+            });
+
+            describe('AND when logOut is clicked', () => {
+                let sinonSpy;
+                let logoutBtn;
+                beforeEach(() => {
+                    logoutBtn = elementShadowRoot.querySelector('#logoutBtn');
+                    sinonSpy = sinon.spy();
+                    logoutBtn.addEventListener('click', sinonSpy);
+                });
+                it('should call _handleLogout method once', function (done) {
+                    flush(function () {
+                        logoutBtn.click();
+                        expect(sinonSpy.callCount).to.be.equal(1)
+                        done();
+                    })
+                })
+            })
+
+            describe('AND when submit button is clicked', () => {
+                let sinonSpy;
+                let submitBtn;
+                beforeEach(() => {
+                    submitBtn = elementShadowRoot.querySelector('#submit');
+                    sinonSpy = sinon.spy();
+                    submitBtn.addEventListener('click', sinonSpy);
+                });
+                it('should call _submitLeave method once', function (done) {
+                    flush(function () {
+                        submitBtn.click();
+                        expect(sinonSpy.callCount).to.be.equal(1);
+                        done();
+                    })
+                })
+                it('should validate the form and call the function makeAjaxCall', (done) => {
+                    element.$.fromDate.value = '2020-08-04';
+                    element.$.toDate.value = '2020-09-04';
+                    element.$.reason.value = 'something';
+                    submitBtn.click();
+                    done();
+
+                })
+            })
+
+
+            describe('<iron-ajax>', function () {
                 var ajax;
                 var request;
                 var server;
@@ -77,12 +128,12 @@
                         '/responds_to_post_with_json',
                         [200, responseHeaders.json, '{"post_success":true}']
                     );
-                    afterEach(() => {
+
+                });
+                afterEach(() => {
                     server.restore();
                 });
-                });
-              
-                it('when making simple post requests for JSON', ()=>{
+                it('when making simple post requests for JSON', () => {
                     beforeEach(() => {
                         ajax = fixture('homeAjaxFixture');
                     });
@@ -92,26 +143,17 @@
                         expect(request.response).to.be.ok;
                         expect(request.response).to.be.an('object');
                         expect(request.response.post_success).to.be.equal(true);
-                    });  
-                })
+                    });
+                });
             });
-                it('should call _submitLeave method once', function (done) {
-                    flush(function () {
-                        submit.click();
-                        expect(sinonSpy.callCount).to.be.equal(1)
-                        done();
-                    })
-                })
-                it('should validate the form and call the function makeAjaxCall', (done) => {
-                    element.$.fromDate.value = '2020-04-12';
-                    element.$.toDate.value = '2020-04-15'
-                    element.$.reason.value = 'Fever';
-                    element.user.sapId = '51823861';
-                    submit.click();
-                    done();
-                })
-            })
-        })
+
+
+
+
+
+        });
+
+       
 
     </script>
 </body>

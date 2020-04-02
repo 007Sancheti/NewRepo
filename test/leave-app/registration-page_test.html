@@ -76,7 +76,6 @@
                         '/responds_to_post_with_json',
                         [200, responseHeaders.json, '{"post_success":true}']
                     );
-
                 });
                 afterEach(() => {
                     server.restore();
@@ -92,7 +91,7 @@
                         expect(request.response).to.be.an('object');
                         expect(request.response.post_success).to.be.equal(true);
                     });  
-                })
+                });
             });
 
             describe('AND when button is clicked', () => {

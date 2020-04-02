@@ -9,7 +9,7 @@
     window.MyAppGlobals = { rootPath: '/' };
     window.BaseUrl = 'http://localhost:3000';
   </script>
-  
+
   <title>Tests</title>
   <script src="../node_modules/@webcomponents/webcomponentsjs/webcomponents-loader.js"></script>
   <script src="../node_modules/mocha/mocha.js"></script>
@@ -22,7 +22,9 @@
       // Load 'my-view1.html' test suite, using native shadow dom
       './leave-app/login-page_test.html?dom=shadow',
       './leave-app/registration-page_test.html?dom=shadow',
-      './leave-app/home-page_test.html?dom=shadow'
+      './leave-app/home-page_test.html?dom=shadow',
+      './leave-app/leaves-page_test.html?dom=shadow'
+
       // Load 'my-view1.html' test suite, using shadydom
       // 'my-view1.html?wc-shadydom=true',
     ]);

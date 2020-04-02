@@ -118,7 +118,6 @@ class HomePage extends PolymerElement {
         <form>
   <vaadin-date-picker id="fromDate" clear-button-visible min="{{dateToday}}" disabled-dates={{date}} label="Select from Date" on-change="_handleChange"></vaadin-date-picker>
   <vaadin-date-picker id="toDate" min="{{minDateForToDate}}" clear-button-visible label="Select To Date" on-change="_handleChange"></vaadin-date-picker>
-  <mp-calendar id="dateNew" label="Select Date" disabled-dates=[[date]] disable-next-days='true' disabled-days='["Saturday","Sunday"]'></mp-caledanr>
   <paper-input id="reason" type="text" label="Reason(Max. Limit 100)" minlength="2" maxlength="100"></paper-input>
   <paper-button id="submit" on-click="_submitLeave">Submit</paper-button>        
 </form>
@@ -169,7 +168,6 @@ connectedCallback(){
     this.user = JSON.parse(sessionStorage.getItem('userDetails'));
     this._makeAjaxCall(`${BaseUrl}/companyHolidays`, 'get', null);
     this.action='List';
-
     this.dateToday = `${new Date().getFullYear()}-${new Date().getMonth() + 1}-${new Date().getDate()}`
 }
 
@@ -183,8 +181,8 @@ _submitLeave(){
     let fromDate =this.$.fromDate.value;
     let toDate = this.$.toDate.value;
     let reason = this.$.reason.value;
-    let sapId = this.user.sapId;
-    let leaveObj = {fromDate,toDate,reason,sapId};
+    // let sapId = this.user.sapId;
+    let leaveObj = {fromDate,toDate,reason};
     this._makeAjaxCall(`${window.BaseUrl}/leaves`, 'post', leaveObj);
     this.message='Leave Applied Successfully';
     this.$.toast.open();
